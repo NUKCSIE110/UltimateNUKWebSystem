@@ -1,1 +1,18 @@
-# UltimateNUKWebSystem
+# UltimateNUKWebSystem 高大學生教務系統整合平台
+學校現行的E平台與教務系統在查詢資料上，有著相當差的使用者體驗，所以我們決定將各個使用者常使用的資訊整合起來，讓學生打開網頁可以一覽無遺，下載E平台課程檔案以及查詢檔案Deadline等等，希望可以讓高大的學生省下這些繁複的操作，將時間花在更有意義的事情上。
+
+## Members
+### kaibaooo
+* Server Side
+* Express
+### winnie94528
+* UI Design
+* Web Scraping(selenium)
+### cheryl5f2
+* UI Design
+* Web Scraping(selenium)
+### KTony
+* Web Scraping(selenium)
+
+## LICENSE
+MIT
