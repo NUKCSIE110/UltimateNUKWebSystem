@@ -1,0 +1,53 @@
+.container_g{
+    margin-top: 50px;
+    margin-left: 15%;
+    width: 70%;
+}
+.grade{
+    float: left;
+    font-size: 28px;
+    text-align: center;
+    height: 350px;
+    width: 20%;
+    background-color: whitesmoke;
+    border: 2px solid gray;
+    padding: 0px 30px;
+    margin: 20px 5px;
+}
+.int{
+    margin: 0px;
+    display: inline-block;
+    padding: 40px 0 20px 0;
+    font-size: 96px;
+    font-weight: bolder;
+}
+.int p{
+    display: inline-block;
+    line-height: 170px;
+    margin: 0px;
+    height: 170px;
+    width: 170px;
+    background-color: #94ff3d;
+    border-radius: 999em;
+}
+.course{
+    margin: 10px;
+    font-size: 32px;
+}
+.time{
+    margin: 0px;
+}
+.choice{
+    float: left;
+    height: 350px;
+    width: 20%;
+    background-color: white;
+    border: 2px solid whitesmoke;
+    padding: 0px 30px;
+    margin: 20px 5px;
+}
+select{
+    display: block;
+    font-size: 28px;
+    margin: 10px 90px; 
+}

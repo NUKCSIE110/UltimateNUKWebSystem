@@ -1,0 +1,75 @@
+
+.container{
+    margin-top: 30px;
+    margin-left: 10%;
+    width: 80%;
+}
+.textBoard{
+    border: 1px solid gray;
+    margin: 50px;
+    text-align: left;
+    padding: 0px 50px;
+}
+.T{
+    font-weight: bold;
+    margin-top: 50px;
+    display: inline-block;
+}
+.course{
+    float : right;
+    margin: 0px;
+    margin-top: 50px;
+    padding: 10px;
+    background-color: #ffcb3d;
+}
+.t{
+    display: block;
+    margin-top: 0;
+}
+
+
+/*Login的部分*/
+img{
+    float: left;
+    /* border: 2px solid #ffcb3d; */
+    height: 90px;
+    width: 90px;
+    margin: 20px;
+    /* display: inline-block; */
+}
+.login{
+    margin-top: 100px;
+    display: inline-block;
+    background-image: url(/pic/header.jpg);
+    background-size: 100%;
+    height: 600px;
+    width: 900px;
+    padding: 100px 300px ;
+    border-radius: 30px;
+    opacity: 0.9;
+}
+input{
+    /* background-color: rgb(202, 202, 202); */
+    float: left;
+    color: #161616;
+    height: 100px;
+    width: 700px;
+    border: none;
+    border-bottom: 2px solid ;
+    border-bottom-color: white;
+    background-color: rgba(0, 0, 0, 0);
+    color: #161616;
+    margin: 20px;
+    font-size: 48px;
+}
+button{
+    background-color: #161616;
+    border-radius: 50px;
+    color: white;
+    font-size: 32px;
+    height: 90px;
+    width: 300px;
+    border: none;
+    cursor: pointer;
+    margin: 60px;
+}

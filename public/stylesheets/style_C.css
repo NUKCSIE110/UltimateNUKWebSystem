@@ -1,0 +1,73 @@
+.container{
+    margin-top: 30px;
+    margin-left: 15%;
+    width: 70%;
+}
+.Title{
+    color: #ffcb3d;
+    /* font-weight: bold; */
+    background-color: #161616;
+    border-bottom: 2px solid #ffcb3d;
+    border-left: 2px solid #ffcb3d;
+    border-right: 2px solid #ffcb3d;
+}
+
+.Title p{
+    /* border: 1px solid red; */
+    display: inline-block;
+    margin: 0px;
+    border-left: 1px solid #ffcb3d;
+    border-right: 1px solid #ffcb3d;
+    
+}
+.container div{
+    /* border: 1px solid red; */
+    margin: 0px;
+    padding: 10px 0;
+    text-align: left;
+}
+p{
+    /* border: 1px solid red; */
+    display: inline-block;
+    margin: 0px;
+}
+.title_N{
+    color: #868686;
+}
+.No{
+    width: 10%;
+    text-align: center;
+}
+.course{
+    width: 38%;
+    padding-left: 24px;
+    
+}
+.time{
+    padding-left: 20px;
+    width: 24%;
+    border-right:none;
+}
+.place{
+    padding-left: 24px;
+    width: 20%;
+}
+select{
+    float: right;
+    font-size: 28px;
+    margin-right: 20px; 
+    padding: 10px;
+}
+.day p{
+    float: left;
+    margin: 0px 30px;
+}
+.day .tt{
+    line-height: 60px;
+    float: right;
+    font-size: 28px;
+}
+.day{
+    height: 80px;
+    padding: 20px 40px;
+}
