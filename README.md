@@ -3,10 +3,11 @@
 
 ## Members
 ### kaibaooo
-* Server Side
+* Back-End Development
 * Express
 ### winnie94528
 * UI Design
+* Front-End Development
 * Web Scraping(selenium)
 ### cheryl5f2
 * UI Design
