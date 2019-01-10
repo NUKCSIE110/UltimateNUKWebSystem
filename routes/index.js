@@ -1,9 +1,31 @@
+var fs = require('fs');
 var express = require('express');
 var router = express.Router();
+var admin = require("firebase-admin");
+var fireData = require('../service/firedata');
+var cheerio=require('cheerio')
+var webdriver = require('selenium-webdriver'),
+   chrome    = require('selenium-webdriver/chrome')
+   // By        = webdriver.By,  //不會用到
+   // until     = webdriver.until,
+   options   = new chrome.Options();
+   options.addArguments('headless'); 
+   options.addArguments('disable-gpu')
+// var path = require('chromedriver').path;
+// var service = new chrome.ServiceBuilder(path).build();
+//     chrome.setDefaultService(service);
+var driver = new webdriver.Builder()
+   .forBrowser('chrome')
+   .withCapabilities(webdriver.Capabilities.chrome()) 
+   .setChromeOptions(options)                         
+   .build();
+var linkList=[]//課程名及其連結
+var boardINF=[]//布告欄資料
+var hwINF=[]//上傳作業資料
+var hwURL=''
 var isLogin=false;
 var account = ['','']
-// var admin = require("firebase-admin");
-// var fireData = require('../service/firedata');
+// var serviceAccount = require("../service/js-finalproj-firebase-adminsdk-44exn-348afa61bf.json");
 // var defaultAuth = firebase.auth();
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -51,32 +73,16 @@ router.get('/logout', function(req, res) {
 });
 
 
-var cheerio=require('cheerio')
-var webdriver = require('selenium-webdriver'),
-   chrome    = require('selenium-webdriver/chrome')
-   // By        = webdriver.By,  //不會用到
-   // until     = webdriver.until,
-   options   = new chrome.Options();
-//    options.addArguments('headless'); 
-   options.addArguments('disable-gpu')
-// var path = require('chromedriver').path;
-// var service = new chrome.ServiceBuilder(path).build();
-//     chrome.setDefaultService(service);
-var driver = new webdriver.Builder()
-   .forBrowser('chrome')
-   .withCapabilities(webdriver.Capabilities.chrome()) 
-   .setChromeOptions(options)                         
-   .build();
-   var linkList=[]//課程名及其連結
-   var boardINF=[]//布告欄資料
-   var hwINF=[]//上傳作業資料
-   var hwURL=''
+
+
 //login()
 
 async function login() {
     var studentID = account[0];
     var password = account[1];
-    
+    linkList=[]//課程名及其連結
+    boardINF=[]//布告欄資料
+    hwINF=[]//上傳作業資料
     hwURL='http://elearning.nuk.edu.tw/m_stujobs/m_stujobs_stuupload.php?bStu_id='+studentID.toUpperCase()
 
    driver.get('http://elearning.nuk.edu.tw/login_page_2.php');
@@ -96,7 +102,27 @@ async function login() {
    console.log(linkList)
    console.log(boardINF)
    console.log(hwINF)
-   return boardINF
+   let pushData = await JSON.parse(
+        '[' + studentID + 
+        ',' + JSON.stringify(linkList)+
+        ',' + JSON.stringify(boardINF)+
+        ',' + JSON.stringify(hwINF) + ']'
+    );
+    var createStudent = fireData.ref('/').push();
+    createStudent.set(pushData)
+    console.log(pushData)
+    fs.writeFile(account[0]+'.json', 
+    '[' + studentID + 
+    ',' + JSON.stringify(linkList)+
+    ',' + JSON.stringify(boardINF)+
+    ',' + JSON.stringify(hwINF) + ']', 
+        function (err) {
+            if (err)
+                console.log(err);
+            else
+                console.log('Write operation complete.');
+        });
+//    return boardINF
 }
 
 async function getLink(value){//拿到課程列表及連結
