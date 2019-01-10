@@ -1,23 +1,39 @@
 var express = require('express');
 var router = express.Router();
 // var elearning = require('../elearning');
-
+var name = 'guest'
 /* GET home page. */
 router.get('/homework', async function (req, res, next) {
    // let db = await login()
    // await console.log(db)
-   res.render('hw', { title: '路徑為 : ' ,content:req.url});
+   if(req.signedCookies.account && req.signedCookies.passwd){
+      isLogin = true;
+  }
+  else{
+   res.redirect('/login');
+}
+   res.render('hw', { title: '路徑為 : ' ,member:req.signedCookies.account,content:req.url});
    
 });
 router.get('/annoucement', function (req, res, next) {
-   res.render('index', { title: '路徑為 : ' ,content:req.url});
+   if(req.signedCookies.account && req.signedCookies.passwd){
+      isLogin = true;
+  }
+  else{
+   res.redirect('/login');
+   }
+   res.render('index', { title: '路徑為 : ' ,member:req.signedCookies.account,content:req.url});
 
 });
-router.get('/files', function (req, res, next) {
-   res.render('index', { title: '路徑為 : ' ,content:req.url});
-});
+
 router.get('/', function (req, res, next) {
-   res.render('index', { title: '路徑為 : ' ,content:req.url});
+   if(req.signedCookies.account && req.signedCookies.passwd){
+      isLogin = true;
+  }
+  else{
+   res.redirect('/login');
+   }
+   res.render('index', { title: '路徑為 : ' ,member:req.signedCookies.account,content:req.url});
 
 });
 //functions

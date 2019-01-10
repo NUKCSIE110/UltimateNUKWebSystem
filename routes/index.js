@@ -11,21 +11,24 @@ router.get('/', function (req, res, next) {
     // })
     var name='guest';
     if(req.signedCookies.account && req.signedCookies.passwd){
-        name=req.signedCookies.account+ ' '+req.signedCookies.passwd;
         isLogin = true;
     }
-    res.render('index', { title: 'Express', member:name, logstatus:isLogin });
+    else{
+        res.redirect('/login');
+    }
+    res.render('index', { title: 'Express', member:req.signedCookies.account, logstatus:isLogin });
     // res.render('index');
 });
 
 router.get('/login', function (req, res, next) {
     var name='guest';
-    isLogin=false;
 	if(req.signedCookies.account && req.signedCookies.passwd){
-        name=req.signedCookies.account+ ' '+req.signedCookies.passwd;
         isLogin = true;
     }
-    res.render('login', { title: 'Express', member:name, logstatus:isLogin });
+    else{
+        res.redirect('/login');
+    }
+    res.render('login', { title: 'Express', member:req.signedCookies.account, logstatus:isLogin });
 });
 router.post('/login', function (req, res, next) {
     if(req.body.account=="" || req.body.passwd=="")

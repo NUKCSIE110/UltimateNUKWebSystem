@@ -1,4 +1,5 @@
-module.exports = async ()=>{
+// module.exports = async ()=>{
+    var fs = require('fs');
     var cheerio=require('cheerio')
     var webdriver = require('selenium-webdriver'),
         chrome    = require('selenium-webdriver/chrome')
@@ -40,11 +41,20 @@ module.exports = async ()=>{
             getLink(html)
         })
         await getBoard()//爬布告欄
-        //await getHw()//爬上傳作業區
+        // await getHw()//爬上傳作業區
         console.log(linkList)
         console.log(boardINF)
         console.log(hwINF)
-        //resolve(boardINF)
+        fs.writeFile(account[0]+'.json', 
+        '[' + JSON.stringify(linkList)+
+        ',' + JSON.stringify(boardINF)+
+        ','+JSON.stringify(hwINF) + ']', 
+        function (err) {
+            if (err)
+                console.log(err);
+            else
+                console.log('Write operation complete.');
+        });
     }
 
     async function getLink(value){//拿到課程列表及連結
@@ -106,4 +116,4 @@ module.exports = async ()=>{
             })
         }
     }
-}
+// }
