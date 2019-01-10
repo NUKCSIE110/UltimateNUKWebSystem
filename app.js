@@ -1,3 +1,4 @@
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -20,8 +21,9 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('hwefiuhweolffho49837yro34lfuho798gfyhiudhoiGHo'));
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use('/cookie', indexRouter);
 
 app.use('/', indexRouter);
 app.use('/elearning', elearingRouter);
@@ -43,4 +45,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = app
