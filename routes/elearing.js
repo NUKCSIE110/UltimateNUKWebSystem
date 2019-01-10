@@ -6,7 +6,7 @@ var name = 'guest'
 router.get('/homework', async function (req, res, next) {
    // let db = await login()
    // await console.log(db)
-   if(req.signedCookies.account && req.signedCookies.passwd){
+   if(req.signedCookies.account){
       isLogin = true;
   }
   else{
@@ -16,7 +16,7 @@ router.get('/homework', async function (req, res, next) {
    
 });
 router.get('/annoucement', function (req, res, next) {
-   if(req.signedCookies.account && req.signedCookies.passwd){
+   if(req.signedCookies.account){
       isLogin = true;
   }
   else{
@@ -27,7 +27,7 @@ router.get('/annoucement', function (req, res, next) {
 });
 
 router.get('/', function (req, res, next) {
-   if(req.signedCookies.account && req.signedCookies.passwd){
+   if(req.signedCookies.account){
       isLogin = true;
   }
   else{
