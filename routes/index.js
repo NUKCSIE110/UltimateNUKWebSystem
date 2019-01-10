@@ -25,15 +25,24 @@ var hwINF=[]//上傳作業資料
 var hwURL=''
 var isLogin=false;
 var account = ['','']
+var currentDB = ''
+
 // var serviceAccount = require("../service/js-finalproj-firebase-adminsdk-44exn-348afa61bf.json");
 // var defaultAuth = firebase.auth();
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    // fireData.ref('/').once('value', function (snapshot){
-    //     console.log(snapshot.val());
-    // })
+    if(req.signedCookies.account){
+        isLogin = true;
+        fireData.ref('/').once('value', function (snapshot){
+            currentDB = snapshot.val();
+            console.log(JSON.stringify(currentDB[req.signedCookies.account][1]))
+            // console.log(currentDB[1])
+         })
+    }
+    
+     
     var name='guest';
-    if(req.signedCookies.account && req.signedCookies.passwd){
+    if(req.signedCookies.account){
         isLogin = true;
     }
     else{
@@ -45,7 +54,7 @@ router.get('/', function (req, res, next) {
 
 router.get('/login', function (req, res, next) {
     var name='guest';
-	if(req.signedCookies.account && req.signedCookies.passwd){
+	if(req.signedCookies.account){
         isLogin = true;
     }
     res.render('login', { title: 'Express', member:req.signedCookies.account, logstatus:isLogin });
@@ -60,7 +69,7 @@ router.post('/login', async function (req, res, next) {
         account[1] = await req.body.passwd;
         await login()
         await res.cookie('account', req.body.account, { path: '/', signed: true, maxAge:600000});  //set cookie
-        await res.cookie('passwd', req.body.passwd, { path: '/', signed: true, maxAge:600000 }); //set cookie
+        //await res.cookie('passwd', req.body.passwd, { path: '/', signed: true, maxAge:600000 }); //set cookie
         return await res.redirect('/');
     }
     res.render('login');
@@ -68,7 +77,7 @@ router.post('/login', async function (req, res, next) {
 router.get('/logout', function(req, res) {
     // ...
     res.clearCookie('account',{path:'/'});
-　　　res.clearCookie('passwd',{path:'/'});
+　　　//res.clearCookie('passwd',{path:'/'});
     return res.redirect('/');
 });
 
@@ -103,25 +112,25 @@ async function login() {
    console.log(boardINF)
    console.log(hwINF)
    let pushData = await JSON.parse(
-        '[' + studentID + 
-        ',' + JSON.stringify(linkList)+
+        '[' + JSON.stringify(linkList)+
         ',' + JSON.stringify(boardINF)+
         ',' + JSON.stringify(hwINF) + ']'
     );
-    var createStudent = fireData.ref('/').push();
-    createStudent.set(pushData)
+    var createStudent = fireData.ref('/');
+    createStudent.child(studentID).set(pushData)
     console.log(pushData)
-    fs.writeFile(account[0]+'.json', 
-    '[' + studentID + 
-    ',' + JSON.stringify(linkList)+
-    ',' + JSON.stringify(boardINF)+
-    ',' + JSON.stringify(hwINF) + ']', 
-        function (err) {
-            if (err)
-                console.log(err);
-            else
-                console.log('Write operation complete.');
-        });
+    //TODO:CANNOT SAVE FILE
+    // fs.writeFile(account[0]+'.json', 
+    // '[' + studentID + 
+    // ',' + JSON.stringify(linkList)+
+    // ',' + JSON.stringify(boardINF)+
+    // ',' + JSON.stringify(hwINF) + ']', 
+    //     function (err) {
+    //         if (err)
+    //             console.log(err);
+    //         else
+    //             console.log('Write operation complete.');
+    //     });
 //    return boardINF
 }
 
