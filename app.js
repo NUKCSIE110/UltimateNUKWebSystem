@@ -22,7 +22,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser('hwefiuhweolffho49837yro34lfuho798gfyhiudhoiGHo'));
+app.use(cookieParser('fiuhEweYoIlffho4983E7yro3S4lfuho798gfyhASLiudhoiGHo'));
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/cookie', indexRouter);
 
