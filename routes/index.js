@@ -68,7 +68,7 @@ router.post('/login', async function (req, res, next) {
         account[0] = await req.body.account.toUpperCase();
         account[1] = await req.body.passwd;
         await login()
-        await res.cookie('account', req.body.account, { path: '/', signed: true, maxAge:600000});  //set cookie
+        await res.cookie('account', req.body.account, { path: '/', signed: true, maxAge:6000000});  //set cookie
         //await res.cookie('passwd', req.body.passwd, { path: '/', signed: true, maxAge:600000 }); //set cookie
         return await res.redirect('/');
     }

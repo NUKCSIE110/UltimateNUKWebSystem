@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 router.get('/course', function (req, res, next) {
-   if(req.signedCookies.account && req.signedCookies.passwd){
+   if(req.signedCookies.account){
       isLogin = true;
   }
   else{
@@ -12,13 +12,14 @@ router.get('/course', function (req, res, next) {
 
 });
 router.get('/grades', function (req, res, next) {
-   if(req.signedCookies.account && req.signedCookies.passwd){
-      isLogin = true;
+   if(req.signedCookies.account){
+       isLogin = true;
+       res.render('grade', { title: '路徑為 : ' ,content:req.url});
   }
   else{
    res.redirect('/login');
    }
-   res.render('grade', { title: '路徑為 : ' ,content:req.url});
+   
 
 });
 module.exports = router
