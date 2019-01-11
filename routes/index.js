@@ -9,7 +9,7 @@ var webdriver = require('selenium-webdriver'),
    // By        = webdriver.By,  //不會用到
    // until     = webdriver.until,
    options   = new chrome.Options();
-   options.addArguments('headless'); 
+   // options.addArguments('headless'); 
    options.addArguments('disable-gpu')
 // var path = require('chromedriver').path;
 // var service = new chrome.ServiceBuilder(path).build();
@@ -26,18 +26,23 @@ var hwURL=''
 var isLogin=false;
 var account = ['','']
 var currentDB = ''
-
+var getScore = "";
+var scoreList = { whichYear: [], course: [], yearScore_td: [] };
+var getList = "";
+var classList=[[],[],[],[],[]];
+var studentID = '';
+var password = '';
 // var serviceAccount = require("../service/js-finalproj-firebase-adminsdk-44exn-348afa61bf.json");
 // var defaultAuth = firebase.auth();
 /* GET home page. */
 router.get('/', function (req, res, next) {
     if(req.signedCookies.account){
         isLogin = true;
-        fireData.ref('/').once('value', function (snapshot){
-            currentDB = snapshot.val();
-            console.log(JSON.stringify(currentDB[req.signedCookies.account][1]))
-            // console.log(currentDB[1])
-         })
+      //   fireData.ref('/').once('value', function (snapshot){
+      //       currentDB = snapshot.val();
+      //       console.log(JSON.stringify(currentDB[req.signedCookies.account][1]))
+      //       // console.log(currentDB[1])
+      //    })
     }
     
      
@@ -67,7 +72,14 @@ router.post('/login', async function (req, res, next) {
     }else{
         account[0] = await req.body.account.toUpperCase();
         account[1] = await req.body.passwd;
+      //   let pushData = await JSON.parse(
+      //       '[[],[],[],[],[]]'
+      //    );
+      //    var createStudent = fireData.ref('/'+studentID);
+      //    createStudent.child("He").set(pushData)
         await login()
+      //   await run();
+      //   await logInStudentSystemCourse();
         await res.cookie('account', req.body.account, { path: '/', signed: true, maxAge:6000000});  //set cookie
         //await res.cookie('passwd', req.body.passwd, { path: '/', signed: true, maxAge:600000 }); //set cookie
         return await res.redirect('/');
@@ -86,9 +98,13 @@ router.get('/logout', function(req, res) {
 
 //login()
 
+async function run(){
+    await logInStudentSystemCourse();
+   //  await logInStudentSystem();
+}
 async function login() {
-    var studentID = account[0];
-    var password = account[1];
+   studentID = account[0];
+   password = account[1];
     linkList=[]//課程名及其連結
     boardINF=[]//布告欄資料
     hwINF=[]//上傳作業資料
@@ -111,27 +127,24 @@ async function login() {
    console.log(linkList)
    console.log(boardINF)
    console.log(hwINF)
+   // var createData = fireData.ref('/');
+   // createData.child('classes').set(linkList)
+   // run();
    let pushData = await JSON.parse(
-        '[' + JSON.stringify(linkList)+
-        ',' + JSON.stringify(boardINF)+
-        ',' + JSON.stringify(hwINF) + ']'
-    );
-    var createStudent = fireData.ref('/');
-    createStudent.child(studentID).set(pushData)
-    console.log(pushData)
-    //TODO:CANNOT SAVE FILE
-    // fs.writeFile(account[0]+'.json', 
-    // '[' + studentID + 
-    // ',' + JSON.stringify(linkList)+
-    // ',' + JSON.stringify(boardINF)+
-    // ',' + JSON.stringify(hwINF) + ']', 
-    //     function (err) {
-    //         if (err)
-    //             console.log(err);
-    //         else
-    //             console.log('Write operation complete.');
-    //     });
-//    return boardINF
+      '[' + JSON.stringify(linkList)+
+      ',' + JSON.stringify(boardINF)+
+      ',' + JSON.stringify(hwINF) + ']'
+  );
+  var createStudent = fireData.ref('/');
+  createStudent.child(studentID).set(pushData)
+   // let pushData = await JSON.parse(
+   //      '[' + JSON.stringify(linkList)+
+   //      ',' + JSON.stringify(boardINF)+
+   //      ',' + JSON.stringify(hwINF) + ']'
+   //  );
+   //  var createStudent = fireData.ref('/');
+   //  createStudent.child(studentID).set(pushData)
+   //  console.log(pushData)
 }
 
 async function getLink(value){//拿到課程列表及連結
@@ -159,7 +172,7 @@ async function getBoard(){
             for(let i = 0; i < datas.length; i++){
                const Title = datas.eq(i).find('.txt_black_ON').parent().text()  //取得時間和標題
                const title = Title.replace(/ /g,'')
-               const Text = datas.eq(i).find('.insidepage_contentdiv').text()  //取得內容
+               const Text = datas.eq(i).find('.insidepage_contentdiv').toString()  //取得內容
                const Text_space = Text.replace(/ /g,'') //去掉所有空白
                const Text_n = Text_space.replace(/\n/g,'') //去掉所有\n
                const Text_t = Text_n.replace(/\t/,'') //去掉開頭\t
@@ -194,6 +207,116 @@ async function getHw(){
    }
 }
 
+// TODO:
+async function logInStudentSystem() {
+   driver.get("https://aca.nuk.edu.tw/Student2/login.asp");
+   await setTimeout(async function logIn() {
+       await driver.findElement(webdriver.By.name('Account')).sendKeys(studentID);
+       await driver.findElement(webdriver.By.name('Password')).sendKeys(password);
+       await driver.findElement(webdriver.By.name('B1')).click();
+       await getGradeData();
+   }, 200);
+}
 
+async function getGradeData() {
+   driver.get("https://aca.nuk.edu.tw/Student2/SO/ScoreQuery.asp");
+   getScore = await driver.findElement(webdriver.By.tagName('html')).getAttribute('innerHTML');
+   await list();
+   await show();
+}
 
+async function list() {
+   const $ = cheerio.load(getScore);
+   const year = await $("body");
+   const listYear = await year.find('p font b');
+   const yearScore_tr = await year.find('p table tbody tr');
+   const block = await year.find('table');
+   var counter = 0;
+   for (let i = 0; i < listYear.length; i++) {
+       await scoreList.whichYear.push(listYear.eq(i).text().slice(0,3)+"_"+listYear.eq(i).text().slice(7,-2));
+   }
+   for (let i = 1; i < block.length-1; i++) { // 走訪 tr
+       const table_tr = block.eq(i).find('tbody tr'); // 擷取每個欄位(td)
+       for (let j = 1; j < table_tr.length; j++) {
+           const table_td = table_tr.eq(j).find('td');
+           const courseNum = table_td.eq(0).text();
+           const courseName = table_td.eq(1).text();
+           const courseCredit = table_td.eq(2).text();
+           const courseElective = table_td.eq(3).text();
+           const courseScore = table_td.eq(5).text();
+           var path = [scoreList.whichYear[counter].slice(0,3),scoreList.whichYear[counter].slice(4,-1),courseNum, courseName, courseCredit, courseElective, courseScore];
+           await scoreList.course.push(path);
+           if(j==table_tr.length-1){
+               counter++;
+           }
+       }
+   }
+   for(let j = 0;j<yearScore_tr.length-1;j++){
+       const yearScore_td = await yearScore_tr.eq(j).find('td');
+       const yearCreditShouldGet = await yearScore_td.eq(0).text();
+       const yearCreditWhichGet = await yearScore_td.eq(1).text();
+       const everageScore = await yearScore_td.eq(2).text();
+       const rank = yearScore_td.eq(3).text();
+       var path = [yearCreditShouldGet,yearCreditWhichGet, everageScore,rank];
+       await scoreList.yearScore_td.push(path);
+   }
+}
+async function show() {
+   await console.log(scoreList);
+   await logInStudentSystem()
+   await driver.get("https://aca.nuk.edu.tw/Student2/Logout.asp");
+}
+//TODO:
+async function logInStudentSystemCourse() {
+   await driver.get("https://course.nuk.edu.tw/Sel/Login.asp");
+      await driver.findElement(webdriver.By.name('Account')).sendKeys(studentID);
+   await driver.findElement(webdriver.By.name('Password')).sendKeys(password);
+   await driver.findElement(webdriver.By.name('B1')).click();
+   await getClassListCourse();
+  //}, 200);
+   
+}
+async function getClassListCourse() {
+   await driver.get("https://course.nuk.edu.tw/Sel/roomlist1.asp");
+   getList = await driver.findElement(webdriver.By.tagName('html')).getAttribute('innerHTML');
+   await listCourse();
+   await showCourse();
+}
+async function listCourse(){
+   const $ = cheerio.load(getList);
+   const table_tr =await $("tbody tr");
+   for (let i = 1; i < table_tr.length; i++) { // 走訪 tr
+       const table_td = table_tr.eq(i).find('td'); // 擷取每個欄位(td)
+       const monPath = table_td.eq(2).text();
+       const tuePath = table_td.eq(3).text();
+       const wedPath = table_td.eq(4).text();
+       const thuPath = table_td.eq(5).text();
+       const friPath = table_td.eq(6).text();
+       const mon=[monPath.slice(6,-7),monPath.slice(-7,)];
+       const tue=[monPath.slice(6,-7),monPath.slice(-7,)];
+       const wed=[monPath.slice(6,-7),monPath.slice(-7,)];
+       const thu=[monPath.slice(6,-7),monPath.slice(-7,)];
+       const fri=[monPath.slice(6,-7),monPath.slice(-7,)];
+       classList[0].push(mon);
+       classList[1].push(tue);
+       classList[2].push(wed);
+       classList[3].push(thu);
+       classList[4].push(fri);
+     }
+}
+async function showCourse() {
+   
+   await driver.get("https://course.nuk.edu.tw/Sel/Logout.asp");
+   await console.log(classList);
+   let pushData = await JSON.parse(
+      '[' + JSON.stringify(linkList)+
+      ',' + JSON.stringify(boardINF)+
+      ',' + JSON.stringify(hwINF) + 
+      ',' + JSON.stringify(scoreList) + 
+      ',' + JSON.stringify(classList) + ']'
+  );
+  var createStudent = fireData.ref('/');
+  createStudent.child(studentID).set(pushData)
+  console.log(pushData)
+}
 module.exports = router;

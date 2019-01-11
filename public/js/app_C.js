@@ -2,8 +2,21 @@ var date = document.querySelector('.date')
 var week = document.querySelector('.week')
 var dateNew = new Date()
 var str = dateNew.getFullYear() + '-' + dateNew.getMonth()+1 + '-' + dateNew.getDate()
-date.textContent = str
 var dayWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+const user = document.querySelector('.user').textContent
+// creatBoard();
+var xhr = new XMLHttpRequest();
+console.log("/API/aca/course?id="+user)
+xhr.open("GET", "/API/aca/course?id="+user);
+xhr.send();
+xhr.onload = () => {
+    console.log(xhr.responseText)
+    let DB = JSON.parse(xhr.responseText);
+    creatBoard(DB)
+}
+
+date.textContent = str
+
 week.textContent = dayWeek[dateNew.getDay()-1] 
 
 const container = document.querySelector('.container')
@@ -18,7 +31,7 @@ function creatClass(){
     if(now == -1) now = dateNew.getDay()-1
     console.log(now)
     for(let i = 1; i < 15; i++){
-        if(dataClass[now][i-1].course != ''){
+        if(dataClass[now][i-1].course != '　'){
             var title = course[i].parentElement
             title.style.color = '#161616'
             console.log(i-1)

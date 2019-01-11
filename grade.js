@@ -6,6 +6,7 @@ var scoreList = { whichYear: [], course: [], yearScore_td: [] };
 var webdriver = require('selenium-webdriver'),
     chrome = require('selenium-webdriver/chrome')
 const cheerio = require("cheerio");
+const account = require("./account.js")
 By = webdriver.By,
     until = webdriver.until,
     options = new chrome.Options();
@@ -20,8 +21,8 @@ logInStudentSystem();
 async function logInStudentSystem() {
     driver.get("https://aca.nuk.edu.tw/Student2/login.asp");
     await setTimeout(async function logIn() {
-        await driver.findElement(webdriver.By.name('Account')).sendKeys(studentID);
-        await driver.findElement(webdriver.By.name('Password')).sendKeys(password);
+        await driver.findElement(webdriver.By.name('Account')).sendKeys(account[0]);
+        await driver.findElement(webdriver.By.name('Password')).sendKeys(account[1]);
         await driver.findElement(webdriver.By.name('B1')).click();
         await getGradeData();
     }, 200);

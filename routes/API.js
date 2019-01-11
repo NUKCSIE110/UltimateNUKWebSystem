@@ -3,30 +3,44 @@ var router = express.Router()
 var admin = require("firebase-admin");
 var fireData = require('../service/firedata');
 router.get('/aca/grades', function (req, res, next) {
-    // console.log(req.query);
     if (req.signedCookies.account) {
         let currentID = req.signedCookies.account.toUpperCase();
         if (currentID == req.query.id.toUpperCase()) {
             console.log('CurrentID : ', currentID);
             fireData.ref('/'+currentID).once('value', function (snapshot){
                 currentDB = snapshot.val();
-                console.log(JSON.stringify(currentDB[req.signedCookies.account][1]))
-                // console.log(currentDB)
+                return res.json(currentDB['score']);
             })
             isLogin = true;
 
         }
-        else {
+       else {
             res.send('no login')
-       } 
+       }
     }
     else {
         res.send('no login')
     }
-    res.render('index_')
 });
 router.get('/aca/course', function (req, res, next) {
-   
+    if (req.signedCookies.account) {
+        let currentID = req.signedCookies.account.toUpperCase();
+        if (currentID == req.query.id.toUpperCase()) {
+            console.log('CurrentID : ', currentID);
+            fireData.ref('/'+currentID).once('value', function (snapshot){
+                currentDB = snapshot.val();
+                return res.json(currentDB['course']);
+            })
+            isLogin = true;
+
+        }
+       else {
+            res.send('no login')
+       }
+    }
+    else {
+        res.send('no login')
+    }
 });
 router.get('/elearning/homework', function (req, res, next) {
    if (req.signedCookies.account) {

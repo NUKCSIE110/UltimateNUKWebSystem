@@ -27,7 +27,7 @@ function creatBoard(DB_){
         course.classList.add('course')
         
         var t = document.createElement('p')
-        t.textContent = DB_[i].text
+        t.innerHTML = DB_[i].text
         t.classList.add('t')
 
         textBoard.appendChild(T)
