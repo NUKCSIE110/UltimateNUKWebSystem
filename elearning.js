@@ -15,7 +15,7 @@
     var driver = new webdriver.Builder()
         .forBrowser('chrome')
         .withCapabilities(webdriver.Capabilities.chrome()) 
-        .setChromeOptions(options)                         
+        .setChromeOptions(options)
         .build();
 
     var studentID = account[0];
