@@ -29,6 +29,12 @@ var intervalID = setInterval(()=>{
         creatGrade()
         if(document.querySelectorAll('.choiceYear option').length > 0){
             clearInterval(intervalID);
+            let tags = document.querySelectorAll('#TAG');
+            for(let i of tags){
+                i.addEventListener('click',(e)=>{
+                    document.querySelector('.mask').classList.remove('hide')
+                })
+            }
         }
     }
 
@@ -57,7 +63,12 @@ function creatGrade(){
             gradeDiv.appendChild(grade)
             var int = document.createElement('div') //成績數字
             var int_p = document.createElement('p')
-            int_p.textContent = DB['course'][i][6]
+            if(DB['course'][i][6] == '未送')
+                int_p.textContent = "X"
+            else if(DB['course'][i][6] == '棄選')
+                int_p.textContent = "棄"
+            else
+                int_p.textContent = DB['course'][i][6]
             int.classList.add('int')
 
             var course = document.createElement('p') //課程名稱

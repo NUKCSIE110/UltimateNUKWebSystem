@@ -9,8 +9,14 @@ xhr.onload = () => {
     console.log(xhr.responseText)
     let DB = JSON.parse(xhr.responseText);
     creatHW(DB)
+    let tags = document.querySelectorAll('#TAG');
+    for(let i of tags){
+        i.addEventListener('click',(e)=>{
+            document.querySelector('.mask').classList.remove('hide')
+        })
+    }
 }
- 
+
 function creatHW(DB_){
                 //作業資料
     for(let i in DB_){

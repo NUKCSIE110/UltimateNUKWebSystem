@@ -85,9 +85,20 @@ input{
     background-color: #ffffff;
     opacity: 0.8;
     position: absolute;
-    z-index: 2;
+    z-index: 3;
 }
+
 body{
     height:100vh;
     overflow: hidden;
+}
+.lds-css{
+    margin:40vh 47vw;
+    
+}
+.ultraMask{
+    z-index: 6;
+}
+.hide{
+    display: none;
 }

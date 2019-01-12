@@ -17,6 +17,12 @@ var intervalID = setInterval(()=>{
         creatClass(DB)
         if(document.querySelectorAll('.choiceYear option').length > 0){
             clearInterval(intervalID);
+            let tags = document.querySelectorAll('#TAG');
+            for(let i of tags){
+                i.addEventListener('click',(e)=>{
+                    document.querySelector('.mask').classList.remove('hide')
+                })
+            }
         }
     }
 },1000)
@@ -41,7 +47,7 @@ function creatClass(){
     console.log(now,choiceYear.value)
     console.log(DB)
     // console.log(DB[now])
-    for(let i = 1; i < 15; i++){
+    for(let i = 1; i < 16; i++){
         if(now == 5 || now == 6 || choiceYear.value==5 ||choiceYear.value==6){
             var title = course[i].parentElement
             title.style.color = '#868686'

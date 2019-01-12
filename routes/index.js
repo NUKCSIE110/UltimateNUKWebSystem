@@ -298,7 +298,6 @@ async function listCourse(){
      }
 }
 async function showCourse() {
-   
    await driver.get("https://course.nuk.edu.tw/Sel/Logout.asp");
    await console.log(classList);
    let pushData = await JSON.parse(

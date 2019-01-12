@@ -11,6 +11,56 @@
     <title>超方便統整大平台</title>
 </head>
 <body>
+        <div class="mask hide">
+                <div class="lds-css ng-scope">
+                        <div class="lds-blocks" style="width:100%;height:100%"><div style="left:38px;top:38px;animation-delay:0s"></div><div style="left:80px;top:38px;animation-delay:0.125s"></div><div style="left:122px;top:38px;animation-delay:0.25s"></div><div style="left:38px;top:80px;animation-delay:0.875s"></div><div style="left:122px;top:80px;animation-delay:0.375s"></div><div style="left:38px;top:122px;animation-delay:0.75s"></div><div style="left:80px;top:122px;animation-delay:0.625s"></div><div style="left:122px;top:122px;animation-delay:0.5s"></div></div>
+                        <style type="text/css">@keyframes lds-blocks {
+                          0% {
+                            background: #fad96d;
+                          }
+                          12.5% {
+                            background: #fad96d;
+                          }
+                          12.625% {
+                            background: #eab145;
+                          }
+                          100% {
+                            background: #eab145;
+                          }
+                        }
+                        @-webkit-keyframes lds-blocks {
+                          0% {
+                            background: #fad96d;
+                          }
+                          12.5% {
+                            background: #fad96d;
+                          }
+                          12.625% {
+                            background: #eab145;
+                          }
+                          100% {
+                            background: #eab145;
+                          }
+                        }
+                        .lds-blocks {
+                          position: relative;
+                        }
+                        .lds-blocks div {
+                          position: absolute;
+                          width: 40px;
+                          height: 40px;
+                          background: #eab145;
+                          -webkit-animation: lds-blocks 1s linear infinite;
+                          animation: lds-blocks 1s linear infinite;
+                        }
+                        .lds-blocks {
+                          width: 200px !important;
+                          height: 200px !important;
+                          -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+                          transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+                        }
+                        </style></div>
+        </div>
     <header>
         <div class="logoBack">
             <!-- <img src="pic/backpic.jpg" alt=""> -->

@@ -5,7 +5,7 @@
 }
 .grade{
     float: left;
-    font-size: 28px;
+    font-size: 24px;
     text-align: center;
     height: 350px;
     width: 20%;
@@ -32,9 +32,10 @@
 }
 .course{
     margin: 10px;
-    font-size: 32px;
+    font-size: 28px;
 }
 .time{
+    font-size: 18px;
     margin: 0px;
 }
 .choice{
