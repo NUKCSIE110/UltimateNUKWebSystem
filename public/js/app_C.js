@@ -7,15 +7,19 @@ const user = document.querySelector('.user').textContent
 // creatBoard();
 var DB;
 var xhr = new XMLHttpRequest();
-console.log("/API/aca/course?id="+user.toUpperCase())
-xhr.open("GET", "/API/aca/course?id="+user.toUpperCase());
-xhr.send();
-xhr.onload = () => {
-    console.log(xhr.responseText)
-    DB = JSON.parse(xhr.responseText);
-    creatClass(DB)
-}
-
+// console.log("/API/aca/course?id="+user.toUpperCase())
+var intervalID = setInterval(()=>{
+    xhr.open("GET", "/API/aca/course?id="+user.toUpperCase());
+    xhr.send();
+    xhr.onload = () => {
+        console.log(xhr.responseText)
+        DB = JSON.parse(xhr.responseText);
+        creatClass(DB)
+        if(document.querySelectorAll('.choiceYear option').length > 0){
+            clearInterval(intervalID);
+        }
+    }
+},1000)
 date.textContent = str
 
 week.textContent = dayWeek[dateNew.getDay()-1] 

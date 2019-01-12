@@ -6,7 +6,7 @@ console.log("/API/elearning/annoucement?id="+user.toUpperCase())
 xhr.open("GET", "/API/elearning/annoucement?id="+user.toUpperCase());
 xhr.send();
 xhr.onload = () => {
-    console.log(xhr.responseText)
+    // console.log(xhr.responseText)
     let DB = JSON.parse(xhr.responseText);
     creatBoard(DB)
 }

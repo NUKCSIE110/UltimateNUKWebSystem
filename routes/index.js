@@ -36,40 +36,35 @@ var password = '';
 // var defaultAuth = firebase.auth();
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    if(req.signedCookies.account){
-        isLogin = true;
-    }
-    
-     
-    var name='guest';
-    if(req.signedCookies.account){
-        isLogin = true;
-    }
-    else{
-        return res.redirect('/login');
-    }
-    res.render('index', { title: 'Express', member:req.signedCookies.account, logstatus:isLogin });
-    // res.render('index');
+   var name='guest';
+   if(req.signedCookies.account){
+       isLogin = true;
+   }
+   else{
+       return res.redirect('/login');
+   }
+   res.render('index', { title: 'Express', member:req.signedCookies.account, logstatus:isLogin });
+   // res.render('index');
 });
 
 router.get('/login', function (req, res, next) {
-    var name='guest';
-	if(req.signedCookies.account){
-        isLogin = true;
-    }
-    res.render('login', { title: 'Express', member:req.signedCookies.account, logstatus:isLogin });
+   var name='guest';
+  if(req.signedCookies.account){
+       isLogin = true;
+   }
+   res.render('login', { title: 'Express', member:req.signedCookies.account, logstatus:isLogin });
 });
 router.post('/login', async function (req, res, next) {
     if(req.body.account=="" || req.body.passwd=="")
     {
         res.render('login');
-            //  return res.redirect('login.html');
     }else{
         account[0] = await req.body.account.toUpperCase();
         account[1] = await req.body.passwd;
-        await login()
-        if(!linkList.length && !boardINF.length && !hwINF.length){
-         res.render('error');
+      //   if(await !hasData())
+         await login()
+        if(!hasData() && !linkList.length && !boardINF.length && !hwINF.length){
+         await res.render('error');
         }
       //   await run();
       //   await logInStudentSystemCourse();
@@ -316,5 +311,18 @@ async function showCourse() {
   var createStudent = fireData.ref('/');
   createStudent.child(studentID.toUpperCase()).set(pushData)
   console.log(pushData)
+}
+async function hasData(){
+   var db = fireData.ref('/');
+   await db.once('value').then((snapshot)=>{
+      if(snapshot.hasChild(account[0].toUpperCase())){
+         console.log(true)
+         return true;
+      }
+      else{
+         console.log(false)
+         return false;
+      }
+   })
 }
 module.exports = router;

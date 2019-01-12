@@ -18,7 +18,8 @@ router.get('/course', async function (req, res, next) {
       getScore = "";
       scoreList = { whichYear: [], course: [], yearScore_td: [] };
       getList = "";
-      await logInStudentSystemCourse()
+      // if(!hasCourseData())
+         await logInStudentSystemCourse()
       isLogin = true;
   }
   else{
@@ -36,7 +37,8 @@ router.get('/grades', async function (req, res, next) {
       scoreList = { whichYear: [], course: [], yearScore_td: [] };
       getList = "";
        isLogin = true;
-       await logInStudentSystem();
+      //  if(!hasGradeData())
+         await logInStudentSystem();
        
        await res.render('grade', { title: '路徑為 : ',member:req.signedCookies.account ,content:req.url});
   }
@@ -196,5 +198,27 @@ async function show() {
    // })
    // var createStudent = fireData.ref('/'+studentID);
    // createStudent.child("score").set(scoreList)
+}
+async function hasCourseData(){
+   var db = fireData.ref('/'+studentID);
+   await db.once('value').then((snapshot)=>{
+      if(!snapshot.hasChild('course')){
+         return true;
+      }
+      else{
+         return false;
+      }
+   })
+}
+async function hasGradeData(){
+   var db = fireData.ref('/'+studentID);
+   await db.once('value').then((snapshot)=>{
+      if(!snapshot.hasChild('score')){
+         return true;
+      }
+      else{
+         return false;
+      }
+   })
 }
 module.exports = router

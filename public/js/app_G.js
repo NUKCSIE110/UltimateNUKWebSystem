@@ -5,26 +5,37 @@ const user = document.querySelector('.user').textContent
 //AJAX
 var DB = ''
 var xhr = new XMLHttpRequest();
-console.log("/API/aca/grades?id="+user.toUpperCase())
-xhr.open("GET", "/API/aca/grades?id="+user.toUpperCase());
-xhr.send();
-xhr.onload = () => {
-    // console.log(xhr.responseText)
-    DB = JSON.parse(xhr.responseText);
-    //建下拉選單
-    var optionYear = {} 
-    var str = '`<option value="0">請選擇</option>`';
-    for(var i = 0; i < DB['whichYear'].length; i++){
-        var content = DB['whichYear'][i].replace(' ', '');
-        if(optionYear[content] == undefined){
-            optionYear[content] = 1;
-            str +=  `<option value="${content}">${content}</option>`;
+// console.log("/API/aca/grades?id="+user.toUpperCase())
+// while(document.querySelectorAll('.choiceYear option').length == 0){
+    // if(document.querySelectorAll('.choiceYear option').length >0) break;
+var intervalID = setInterval(()=>{
+    // console.log('excute')
+    xhr.open("GET", "/API/aca/grades?id="+user.toUpperCase());
+    xhr.send();
+    xhr.onload = () => {
+        // console.log(xhr.responseText)
+        DB = JSON.parse(xhr.responseText);
+        //建下拉選單
+        var optionYear = {} 
+        var str = '`<option value="0">請選擇</option>`';
+        for(var i = 0; i < DB['whichYear'].length; i++){
+            var content = DB['whichYear'][i].replace(' ', '');
+            if(optionYear[content] == undefined){
+                optionYear[content] = 1;
+                str +=  `<option value="${content}">${content}</option>`;
+            }
+        }
+        choiceYear.innerHTML = str
+        creatGrade()
+        if(document.querySelectorAll('.choiceYear option').length > 0){
+            clearInterval(intervalID);
         }
     }
-    choiceYear.innerHTML = str
-    creatGrade()
-}
 
+},1000)
+
+    
+// }
 
 
 //理想：一進頁面為最新成績單 可改查其他。
