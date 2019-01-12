@@ -7,8 +7,8 @@ const user = document.querySelector('.user').textContent
 // creatBoard();
 var DB;
 var xhr = new XMLHttpRequest();
-console.log("/API/aca/course?id="+user)
-xhr.open("GET", "/API/aca/course?id="+user);
+console.log("/API/aca/course?id="+user.toUpperCase())
+xhr.open("GET", "/API/aca/course?id="+user.toUpperCase());
 xhr.send();
 xhr.onload = () => {
     console.log(xhr.responseText)

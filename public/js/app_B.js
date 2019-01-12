@@ -2,8 +2,8 @@ const container = document.querySelector('.container')
 const user = document.querySelector('.user').textContent
 // creatBoard();
 var xhr = new XMLHttpRequest();
-console.log("/API/elearning/annoucement?id="+user)
-xhr.open("GET", "/API/elearning/annoucement?id="+user);
+console.log("/API/elearning/annoucement?id="+user.toUpperCase())
+xhr.open("GET", "/API/elearning/annoucement?id="+user.toUpperCase());
 xhr.send();
 xhr.onload = () => {
     console.log(xhr.responseText)

@@ -5,8 +5,8 @@ const user = document.querySelector('.user').textContent
 //AJAX
 var DB = ''
 var xhr = new XMLHttpRequest();
-console.log("/API/aca/grades?id="+user)
-xhr.open("GET", "/API/aca/grades?id="+user);
+console.log("/API/aca/grades?id="+user.toUpperCase())
+xhr.open("GET", "/API/aca/grades?id="+user.toUpperCase());
 xhr.send();
 xhr.onload = () => {
     // console.log(xhr.responseText)

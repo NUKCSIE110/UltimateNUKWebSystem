@@ -7,19 +7,18 @@ router.get('/aca/grades', function (req, res, next) {
         let currentID = req.signedCookies.account.toUpperCase();
         if (currentID == req.query.id.toUpperCase()) {
             console.log('CurrentID : ', currentID);
-            fireData.ref('/'+currentID).once('value', function (snapshot){
+            fireData.ref('/'+currentID.toUpperCase()).once('value', function (snapshot){
                 currentDB = snapshot.val();
                 return res.json(currentDB['score']);
             })
             isLogin = true;
-
         }
        else {
-            res.send('no login')
+            res.render('apiNoLoginErr')
        }
     }
     else {
-        res.send('no login')
+        res.render('apiNoLoginErr')
     }
 });
 router.get('/aca/course', function (req, res, next) {
@@ -27,7 +26,7 @@ router.get('/aca/course', function (req, res, next) {
         let currentID = req.signedCookies.account.toUpperCase();
         if (currentID == req.query.id.toUpperCase()) {
             console.log('CurrentID : ', currentID);
-            fireData.ref('/'+currentID).once('value', function (snapshot){
+            fireData.ref('/'+currentID.toUpperCase()).once('value', function (snapshot){
                 currentDB = snapshot.val();
                 return res.json(currentDB['course']);
             })
@@ -35,11 +34,11 @@ router.get('/aca/course', function (req, res, next) {
 
         }
        else {
-            res.send('no login')
+            res.render('apiNoLoginErr')
        }
     }
     else {
-        res.send('no login')
+        res.render('apiNoLoginErr')
     }
 });
 router.get('/elearning/homework', function (req, res, next) {
@@ -55,11 +54,11 @@ router.get('/elearning/homework', function (req, res, next) {
 
         }
        else {
-            res.send('no login')
+            res.render('apiNoLoginErr')
        }
     }
     else {
-        res.send('no login')
+        res.render('apiNoLoginErr')
     }
     // res.render('index_')
 });
@@ -76,11 +75,11 @@ router.get('/elearning/annoucement', function (req, res, next) {
 
         }
         else {
-            res.send('no login')
+            res.render('apiNoLoginErr')
        }
     }
     else {
-        res.send('no login')
+        res.render('apiNoLoginErr')
     }
 });
 //TODO: API Design

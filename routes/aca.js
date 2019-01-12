@@ -31,7 +31,6 @@ router.get('/grades', async function (req, res, next) {
    if(req.signedCookies.account && req.signedCookies.passwd){
       studentID = req.signedCookies.account;
       passwd = req.signedCookies.passwd;
-      console.log(passwd)
       classList=[[],[],[],[],[]];
       getScore = "";
       scoreList = { whichYear: [], course: [], yearScore_td: [] };
@@ -55,7 +54,7 @@ const cheerio = require("cheerio");
 By = webdriver.By,
     until = webdriver.until,
     options = new chrome.Options();
-// options.addArguments('headless'); 
+options.addArguments('headless'); 
 options.addArguments('disable-gpu');//no longer necessary on Linux or Mac OSX 
 var driver = new webdriver.Builder()
     .forBrowser('chrome')
@@ -70,7 +69,6 @@ async function logInStudentSystemCourse() {
        console.log(title);
    })
    // await setTimeout(async function logIn() {
-      console.log(passwd)
       await driver.findElement(webdriver.By.name('Account')).sendKeys(studentID);
       await driver.findElement(webdriver.By.name('Password')).sendKeys(passwd);
       await driver.findElement(webdriver.By.name('B1')).click();
@@ -104,10 +102,10 @@ async function listCourse(){
 async function showCourse() {
    await console.log(classList);
    //TODO:
-   var courseCheck = fireData.ref('/'+studentID);
-   courseCheck.once('value').then((snapshot)=>{
+   var courseCheck = fireData.ref('/'+studentID.toUpperCase());
+   await courseCheck.once('value').then((snapshot)=>{
       if(!snapshot.hasChild('course')){
-         var createStudent = fireData.ref('/'+studentID);
+         var createStudent = fireData.ref('/'+studentID.toUpperCase());
          createStudent.child("course").set(classList)
       }
    })
@@ -180,10 +178,10 @@ async function list() {
 async function show() {
    
    await console.log(scoreList);
-   var scoreCheck = fireData.ref('/'+studentID);
-   scoreCheck.once('value').then((snapshot)=>{
+   var scoreCheck = fireData.ref('/'+studentID.toUpperCase());
+   await scoreCheck.once('value').then((snapshot)=>{
       if(!snapshot.hasChild('score')){
-         var createStudent = fireData.ref('/'+studentID);
+         var createStudent = fireData.ref('/'+studentID.toUpperCase());
          createStudent.child("score").set(scoreList)
       }
    })

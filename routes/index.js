@@ -38,11 +38,6 @@ var password = '';
 router.get('/', function (req, res, next) {
     if(req.signedCookies.account){
         isLogin = true;
-      //   fireData.ref('/').once('value', function (snapshot){
-      //       currentDB = snapshot.val();
-      //       console.log(JSON.stringify(currentDB[req.signedCookies.account][1]))
-      //       // console.log(currentDB[1])
-      //    })
     }
     
      
@@ -73,9 +68,12 @@ router.post('/login', async function (req, res, next) {
         account[0] = await req.body.account.toUpperCase();
         account[1] = await req.body.passwd;
         await login()
+        if(!linkList.length && !boardINF.length && !hwINF.length){
+         res.render('error');
+        }
       //   await run();
       //   await logInStudentSystemCourse();
-        await res.cookie('account', req.body.account, { path: '/', signed: true, maxAge:6000000});  //set cookie
+        await res.cookie('account', req.body.account.toUpperCase(), { path: '/', signed: true, maxAge:6000000});  //set cookie
         await res.cookie('passwd', req.body.passwd, { path: '/', signed: true, maxAge:6000000 }); //set cookie
         return await res.redirect('/');
     }
@@ -84,7 +82,7 @@ router.post('/login', async function (req, res, next) {
 router.get('/logout', function(req, res) {
     // ...
     res.clearCookie('account',{path:'/'});
-　　　//res.clearCookie('passwd',{path:'/'});
+　　res.clearCookie('passwd',{path:'/'});
     return res.redirect('/');
 });
 
@@ -113,6 +111,11 @@ async function login() {
       stupw.value=password
       document.form1.submit();
    },studentID,password)
+   currentURL = await driver.getCurrentUrl();
+   console.log(currentURL)
+   if(currentURL.includes('http://elearning.nuk.edu.tw/login_page_2.php')){
+      return;
+   }
    await driver.navigate().to('http://elearning.nuk.edu.tw/m_student/m_stu_index.php')//課程列表
    await driver.getPageSource().then(async function(html){
       getLink(html)
@@ -131,7 +134,7 @@ async function login() {
       ',' + JSON.stringify(hwINF) + ']'
   );
   var createStudent = fireData.ref('/');
-  createStudent.child(studentID).set(pushData)
+  createStudent.child(studentID.toUpperCase()).set(pushData)
    // let pushData = await JSON.parse(
    //      '[' + JSON.stringify(linkList)+
    //      ',' + JSON.stringify(boardINF)+
@@ -311,7 +314,7 @@ async function showCourse() {
       ',' + JSON.stringify(classList) + ']'
   );
   var createStudent = fireData.ref('/');
-  createStudent.child(studentID).set(pushData)
+  createStudent.child(studentID.toUpperCase()).set(pushData)
   console.log(pushData)
 }
 module.exports = router;

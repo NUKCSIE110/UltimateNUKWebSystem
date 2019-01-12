@@ -2,8 +2,8 @@ const container = document.querySelector('.container')
 // creatHW();
 const user = document.querySelector('.user').textContent
 var xhr = new XMLHttpRequest();
-console.log("/API/elearning/homework?id="+user)
-xhr.open("GET", "/API/elearning/homework?id="+user);
+console.log("/API/elearning/homework?id="+user.toUpperCase())
+xhr.open("GET", "/API/elearning/homework?id="+user.toUpperCase());
 xhr.send();
 xhr.onload = () => {
     console.log(xhr.responseText)
