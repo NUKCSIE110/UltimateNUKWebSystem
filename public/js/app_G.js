@@ -29,6 +29,7 @@ var intervalID = setInterval(()=>{
         creatGrade()
         if(document.querySelectorAll('.choiceYear option').length > 0){
             clearInterval(intervalID);
+            
             let tags = document.querySelectorAll('#TAG');
             for(let i of tags){
                 i.addEventListener('click',(e)=>{
@@ -49,6 +50,9 @@ var intervalID = setInterval(()=>{
 //bug：重拉選單 需清除舊資料時機
 choiceYear.addEventListener('change',function(){
     creatGrade();
+    document.querySelector('.result').innerHTML = `
+    ${DB['yearScore_td'][DB['whichYear'].indexOf(choiceYear.value.replace('_',"_ "))]}
+    `
 })
 
 function creatGrade(){
@@ -88,4 +92,5 @@ function creatGrade(){
             if(DB['course'][i][6] < 60) int_p.style.backgroundColor='#f2746b'
         }
     }
+    
 }
