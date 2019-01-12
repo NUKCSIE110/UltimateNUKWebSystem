@@ -9,7 +9,7 @@ var webdriver = require('selenium-webdriver'),
    // By        = webdriver.By,  //不會用到
    // until     = webdriver.until,
    options   = new chrome.Options();
-   // options.addArguments('headless'); 
+   options.addArguments('headless'); 
    options.addArguments('disable-gpu')
 // var path = require('chromedriver').path;
 // var service = new chrome.ServiceBuilder(path).build();
@@ -72,16 +72,11 @@ router.post('/login', async function (req, res, next) {
     }else{
         account[0] = await req.body.account.toUpperCase();
         account[1] = await req.body.passwd;
-      //   let pushData = await JSON.parse(
-      //       '[[],[],[],[],[]]'
-      //    );
-      //    var createStudent = fireData.ref('/'+studentID);
-      //    createStudent.child("He").set(pushData)
         await login()
       //   await run();
       //   await logInStudentSystemCourse();
         await res.cookie('account', req.body.account, { path: '/', signed: true, maxAge:6000000});  //set cookie
-        //await res.cookie('passwd', req.body.passwd, { path: '/', signed: true, maxAge:600000 }); //set cookie
+        await res.cookie('passwd', req.body.passwd, { path: '/', signed: true, maxAge:6000000 }); //set cookie
         return await res.redirect('/');
     }
     res.render('login');

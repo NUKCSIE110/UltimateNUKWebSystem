@@ -7,10 +7,13 @@ var classList=[[],[],[],[],[]];
 var getScore = "";
 var scoreList = { whichYear: [], course: [], yearScore_td: [] };
 var getList = "";
-
+var studentID;
+var passwd;
 
 router.get('/course', async function (req, res, next) {
-   if(req.signedCookies.account){
+   if(req.signedCookies.account && req.signedCookies.passwd){
+      studentID = req.signedCookies.account;
+      passwd = req.signedCookies.passwd;
       classList=[[],[],[],[],[]];
       getScore = "";
       scoreList = { whichYear: [], course: [], yearScore_td: [] };
@@ -25,7 +28,10 @@ router.get('/course', async function (req, res, next) {
 
 });
 router.get('/grades', async function (req, res, next) {
-   if(req.signedCookies.account){
+   if(req.signedCookies.account && req.signedCookies.passwd){
+      studentID = req.signedCookies.account;
+      passwd = req.signedCookies.passwd;
+      console.log(passwd)
       classList=[[],[],[],[],[]];
       getScore = "";
       scoreList = { whichYear: [], course: [], yearScore_td: [] };
@@ -41,35 +47,36 @@ router.get('/grades', async function (req, res, next) {
    
 
 });
-var studentID = '';
-var password = '';
 
-
-const account = require("../account.js")
+// const account = require("../account.js")
 var webdriver = require('selenium-webdriver'),
     chrome = require('selenium-webdriver/chrome')
 const cheerio = require("cheerio");
 By = webdriver.By,
     until = webdriver.until,
     options = new chrome.Options();
-options.addArguments('headless'); 
+// options.addArguments('headless'); 
 options.addArguments('disable-gpu');//no longer necessary on Linux or Mac OSX 
 var driver = new webdriver.Builder()
     .forBrowser('chrome')
     .withCapabilities(webdriver.Capabilities.chrome())
     .setChromeOptions(options)
     .build();
-studentID = account[0];
-password = account[1];
+// studentID = account[0];
+// password = account[1];
 async function logInStudentSystemCourse() {
-   driver.get("https://course.nuk.edu.tw/Sel/Login.asp");
+   await driver.get("https://course.nuk.edu.tw/Sel/Login.asp");
    driver.getTitle().then(function (title) {
        console.log(title);
    })
-   driver.findElement(webdriver.By.name('Account')).sendKeys(account[0]);
-   driver.findElement(webdriver.By.name('Password')).sendKeys(account[1]);
-   await driver.findElement(webdriver.By.name('B1')).click();
-   await getClassListCourse();
+   // await setTimeout(async function logIn() {
+      console.log(passwd)
+      await driver.findElement(webdriver.By.name('Account')).sendKeys(studentID);
+      await driver.findElement(webdriver.By.name('Password')).sendKeys(passwd);
+      await driver.findElement(webdriver.By.name('B1')).click();
+      await getClassListCourse();
+   // },200)
+   
 }
 async function getClassListCourse() {
    driver.get("https://course.nuk.edu.tw/Sel/roomlist1.asp");
@@ -97,8 +104,15 @@ async function listCourse(){
 async function showCourse() {
    await console.log(classList);
    //TODO:
-   var createStudent = fireData.ref('/'+studentID);
-   createStudent.child("course").set(classList)
+   var courseCheck = fireData.ref('/'+studentID);
+   courseCheck.once('value').then((snapshot)=>{
+      if(!snapshot.hasChild('course')){
+         var createStudent = fireData.ref('/'+studentID);
+         createStudent.child("course").set(classList)
+      }
+   })
+   // var createStudent = fireData.ref('/'+studentID);
+   // createStudent.child("course").set(classList)
    // var isCourseExist = fireData.ref('/'+studentID);
    // isCourseExist.once('value', function(snapshot) {
    //    if (!snapshot.hasChild('course')) {
@@ -111,10 +125,10 @@ async function showCourse() {
 }
 
 async function logInStudentSystem() {
-   driver.get("https://aca.nuk.edu.tw/Student2/login.asp");
+   await driver.get("https://aca.nuk.edu.tw/Student2/login.asp");
    await setTimeout(async function logIn() {
-       await driver.findElement(webdriver.By.name('Account')).sendKeys(account[0]);
-       await driver.findElement(webdriver.By.name('Password')).sendKeys(account[1]);
+       await driver.findElement(webdriver.By.name('Account')).sendKeys(studentID);
+       await driver.findElement(webdriver.By.name('Password')).sendKeys(passwd);
        await driver.findElement(webdriver.By.name('B1')).click();
        await getGradeData();
    }, 200);
@@ -166,14 +180,22 @@ async function list() {
 async function show() {
    
    await console.log(scoreList);
-   var scoreCheck = fireData.ref('/'+studentID+'/score/whichYear');
+   var scoreCheck = fireData.ref('/'+studentID);
    scoreCheck.once('value').then((snapshot)=>{
-      console.log(snapshot.val().length, scoreList['whichYear'].length)
-      if(snapshot.val().length != scoreList['whichYear'].length){
+      if(!snapshot.hasChild('score')){
          var createStudent = fireData.ref('/'+studentID);
          createStudent.child("score").set(scoreList)
       }
    })
+
+   // var scoreCheck = fireData.ref('/'+studentID+'/score/whichYear');
+   // await scoreCheck.once('value').then((snapshot)=>{
+   //    console.log(snapshot.val().length, scoreList['whichYear'].length)
+   //    if(snapshot.val().length != scoreList['whichYear'].length){
+   //       var createStudent = fireData.ref('/'+studentID);
+   //       createStudent.child("score").set(scoreList)
+   //    }
+   // })
    // var createStudent = fireData.ref('/'+studentID);
    // createStudent.child("score").set(scoreList)
 }
