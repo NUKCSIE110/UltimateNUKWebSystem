@@ -63,7 +63,7 @@ router.post('/login', async function (req, res, next) {
         account[1] = await req.body.passwd;
       //   if(await !hasData())
          await login()
-        if(!hasData() && !linkList.length && !boardINF.length && !hwINF.length){
+        if(!linkList.length && !boardINF.length && !hwINF.length){
          await res.render('error');
         }
       //   await run();

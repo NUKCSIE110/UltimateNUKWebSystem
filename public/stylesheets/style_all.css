@@ -58,3 +58,6 @@ body{
     display: none;
     z-index: -1;
 }
+.clear{
+    clear: both;
+}
