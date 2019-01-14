@@ -3,7 +3,7 @@ var week = document.querySelector('.week')
 var dateNew = new Date()
 var str = dateNew.getFullYear() + '-' + dateNew.getMonth()+1 + '-' + dateNew.getDate()
 var dayWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri','Sat','Sun']
-const user = document.querySelector('.user').textContent
+const user = document.querySelector('.welcome').textContent
 // creatBoard();
 var DB;
 var xhr = new XMLHttpRequest();

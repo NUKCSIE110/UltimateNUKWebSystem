@@ -1,7 +1,7 @@
 var choiceYear = document.querySelector('.choiceYear') //下拉選單
 const container_g = document.querySelector('.container_g')
 var gradeDiv = document.querySelector('.gradeDiv')
-const user = document.querySelector('.user').textContent
+const user = document.querySelector('.welcome').textContent
 //AJAX
 var DB = ''
 var xhr = new XMLHttpRequest();

@@ -1,5 +1,5 @@
 const container = document.querySelector('.container')
-const user = document.querySelector('.user').textContent
+const user = document.querySelector('.welcome').textContent
 // creatBoard();
 var xhr = new XMLHttpRequest();
 console.log("/API/elearning/annoucement?id="+user.toUpperCase())

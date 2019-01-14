@@ -1,6 +1,6 @@
 const container = document.querySelector('.container')
 // creatHW();
-const user = document.querySelector('.user').textContent
+const user = document.querySelector('.welcome').textContent
 var xhr = new XMLHttpRequest();
 console.log("/API/elearning/homework?id="+user.toUpperCase())
 xhr.open("GET", "/API/elearning/homework?id="+user.toUpperCase());
@@ -33,9 +33,9 @@ function creatHW(DB_){
         job.classList.add('job')
 
         var time = document.createElement('p')
-        time.textContent = DB_[i].deadline
+        time.textContent = "Deadline:" + DB_[i].deadLine
         time.classList.add('time')
-
+        console.log(time)
         homework.appendChild(course)
         homework.appendChild(job)
         homework.appendChild(time)

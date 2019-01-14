@@ -61,3 +61,39 @@ body{
 .clear{
     clear: both;
 }
+.logout{
+    text-align: right;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 20px;
+    height: 25%;
+    width: 20%;
+    display: inline-block;
+    color:  rgb(214, 214, 214);
+}
+.loginPIC{
+    background-image: url(/pic/loging.png);
+    background-size: 90%;
+    height: 150px;
+    background-repeat: no-repeat;
+}
+.welcome{
+    position: absolute;
+    margin-top: 25%;
+    margin-left: 18%;
+}
+.out{
+    text-decoration:none;
+    /* position: absolute; */
+    color: rgb(214, 214, 214);
+    display: inline-block;
+    margin-top: 38%;
+    margin-right: 50%;
+}
+.out:hover{
+    cursor: pointer;
+    font-weight: bold; 
+    color: #ffcb3d;
+}

@@ -52,6 +52,8 @@ router.get('/login', function (req, res, next) {
   if(req.signedCookies.account){
        isLogin = true;
    }
+   res.clearCookie('account',{path:'/'});
+   res.clearCookie('passwd',{path:'/'});
    res.render('login', { title: 'Express', member:req.signedCookies.account, logstatus:isLogin });
 });
 router.post('/login', async function (req, res, next) {
