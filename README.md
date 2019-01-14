@@ -4,14 +4,16 @@
 ## Members
 ### kaibaooo
 * Back-End Development
-* Express
+* API Development
 ### winnie94528
 * UI Design
 * Front-End Development
+* Web Scraping(selenium) with E平台
 ### cheryl5f2
 * UI Design
 * Web Scraping(selenium) with E平台
 ### KTony
 * Web Scraping(selenium) with 教務系統 & 選課系統
+* Testing and Bug Fix
 ## LICENSE
 MIT
