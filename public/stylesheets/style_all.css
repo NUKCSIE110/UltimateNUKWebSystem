@@ -76,7 +76,7 @@ body{
 .loginPIC{
     background-image: url(/pic/loging.png);
     background-size: 90%;
-    height: 150px;
+    /* height: 150px; */
     background-repeat: no-repeat;
 }
 .welcome{
