@@ -33,7 +33,7 @@ function creatHW(DB_){
         job.classList.add('job')
 
         var time = document.createElement('p')
-        time.textContent = "Deadline:" + DB_[i].deadLine
+        time.innerHTML = "Deadline:<br>" + DB_[i].deadLine
         time.classList.add('time')
         console.log(time)
         homework.appendChild(course)
