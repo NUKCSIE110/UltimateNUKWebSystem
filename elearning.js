@@ -60,8 +60,9 @@
     async function getLink(value){//拿到課程列表及連結
         let $ = cheerio.load(value)
         $('.hurl_black_L').each(function(){
-            let color=$(this).parent().attr('bgcolor')//上層才有背景色
-            if(color=='#FFDCD7'){
+            let code = $(this).parent().prev().text//上層才有背景色
+            console.log(code)
+            if(code.slice(8)=='1072'){
                 let name=$(this).text()
                 let link = $(this).attr('href')
                 str='http://elearning.nuk.edu.tw/'

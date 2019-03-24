@@ -145,15 +145,16 @@ async function login() {
 async function getLink(value){//拿到課程列表及連結
    let $ = cheerio.load(value)
    $('.hurl_black_L').each(function(){
-      let color=$(this).parent().attr('bgcolor')//上層才有背景色
-      if(color=='#FFDCD7'){
-            let name=$(this).text()
-            let link = $(this).attr('href')
-            str='http://elearning.nuk.edu.tw/'
-            str+=link.slice(3)
-            linkList.push({'name':name,'link':str})
-      }  
-   })
+            let code = $(this).parent().prev().text()//上層才有背景色
+            console.log("code => " + code)
+            if(code.slice(7)=='1072'){
+                let name=$(this).text()
+                let link = $(this).attr('href')
+                str='http://elearning.nuk.edu.tw/'
+                str+=link.slice(3)
+                linkList.push({'name':name,'link':str})
+            }  
+        })
 }
 
 async function getBoard(){

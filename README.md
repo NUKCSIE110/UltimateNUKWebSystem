@@ -3,6 +3,13 @@
 ## DEMO
 ![](https://github.com/NUKCSIE110/UltimateNUKWebSystem/blob/master/public/pic/DEMO%20(1).png)
 
+## Usage
+```bash
+npm install
+npm start
+```
+http://localhost:3000
+
 ## Members
 ### kaibaooo
 * Back-End Development
